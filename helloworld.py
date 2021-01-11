@@ -9,3 +9,5 @@ o = MyClass()
 
 # Now we can work with the object
 print(o.MyFunc())
+while 1:
+    pass

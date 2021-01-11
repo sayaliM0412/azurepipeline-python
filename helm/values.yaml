@@ -1,0 +1,8 @@
+action_name: trial-azure-pipeline # required!
+service_account: alchemy
+
+image_repo: docker.magicmemories.com/azurepipeline # required!
+
+image_tag: latest # required, but typically supplied directly on the command line
+
+image_pull_secret: docker-mm-nexus

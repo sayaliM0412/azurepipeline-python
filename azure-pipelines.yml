@@ -11,11 +11,19 @@ jobs:
       Python36:
         python.version: '3.6'
 
-  steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '$(python.version)'
+- stage: test
+  displayName: Test
+  dependsOn:
+  - build
+  jobs:
+  - job: test_python_solution
+    displayName: test python solution
+    steps:
+      - task: UsePythonVersion@0
+        displayName: 'Use Python $(python.version)'
+        inputs:
+          versionSpec: '$(python.version)'
       - script: |
           python -m pip install flake8
           flake8 .
-  displayName: 'Run lint tests'
+        displayName: 'Run lint tests'

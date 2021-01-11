@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trial-azure-pipeline
+  labels:
+    app: trial-azure-pipeline
+spec:
+  selector:
+    matchLabels:
+      app: trial-azure-pipeline
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+      labels:
+        app: trial-azure-pipeline
+    spec:
+      imagePullSecrets:
+        - name: docker-mm-nexus
+      serviceAccountName: alchemy
+      containers:
+        - name: trial-azure-pipeline
+          image: {{ printf "%s:%s" .Values.image_repo .Values.image_tag }}
+          envFrom:
+            - secretRef:
+                name: trial-azure-pipeline-config
+
