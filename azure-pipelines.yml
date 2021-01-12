@@ -51,8 +51,8 @@ stages:
         kubernetesServiceConnection: 'azure-pipeline-connection'
         command: 'upgrade'
         chartType: 'FilePath'
-        chartPath: 'helm/'
-        valueFile: 'values.yaml'
+        # chartPath: 'helm'
+        # valueFile: 'values.yaml'
         # releaseName: azurepipeline-trial
         # arguments: '--install azurepipeline-trial'
         arguments: 'azurepipeline-trial . --install -f values.yaml'
