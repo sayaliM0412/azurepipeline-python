@@ -31,10 +31,6 @@ stages:
   - job: test_python_solution
     displayName: test python solution
     steps:
-    - task: UsePythonVersion@0
+    - task: DotNetCoreCLI@2
       inputs:
-        versionSpec: '$(python.version)'
-        - script: |
-            python -m pip install flake8
-            flake8 .
-    displayName: 'Run lint tests'
+        command: test        
