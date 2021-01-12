@@ -55,4 +55,4 @@ stages:
         releaseName: 'azurepipeline-trial'
         # arguments: '--install azurepipeline-trial -f values.yaml azure-pipeline-trial .'
         # arguments: '--install azurepipeline-trial --namespace default ./'
-        arguments: '--install azurepipeline-trial --values values.yaml helm/'
+        arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
