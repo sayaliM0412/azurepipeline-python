@@ -55,6 +55,6 @@ stages:
         valueFile: 'values.yaml'
         # releaseName: azurepipeline-trial
         # arguments: '--install azurepipeline-trial'
-        arguments: '--install azurepipeline-trial helm/Chart.yaml -f values.yaml'
+        arguments: 'azurepipeline-trial helm/Chart.yaml -f values.yaml'
         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
         # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
