@@ -30,3 +30,18 @@ stages:
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: '$(tag)'
+
+- stage: Deploy
+  displayName: Deploy Helm
+  jobs:  
+  - job: Deploy
+    displayName: Deploy Helm
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+
+    - task: HelmInstaller@1
+      inputs:
+        helmVersionToInstall: '3.2.3'
+
