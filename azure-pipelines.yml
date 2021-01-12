@@ -53,10 +53,10 @@ stages:
         chartType: 'FilePath'
         chartPath: 'helm/'
         valueFile: 'values.yaml'
-        releaseName: azurepipeline-trial
+        # releaseName: azurepipeline-trial
         # arguments: '--install azurepipeline-trial'
         # arguments: '--install azurepipeline-trial -f values.yaml azure-pipeline-trial .'
-        arguments: 'azure-pipeline-trial --install azurepipeline-trial --namespace default ./'
+        arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default'
     #     # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
     # - task: HelmDeploy@0
     #   inputs:
