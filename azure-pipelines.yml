@@ -10,7 +10,7 @@ stages:
   pool:
     vmImage: 'ubuntu-latest'
   jobs:
-  - job: 'Test'
+  - job: 'Build'
     displayName: build solution  
     steps:
     - script: echo Hello, world!
@@ -19,6 +19,12 @@ stages:
     - script: |
         echo Add other tasks to build, test, and deploy your project.
       displayName: 'Run a multi-line script'
+
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'azure-pipeline-connection'
+        manifests: 'helm/templates/deployment.yml'
 
 - stage: test
   displayName: Test
@@ -31,14 +37,9 @@ stages:
       - task: PythonScript@0
         inputs:
           scriptSource: 'filePath'
-          scriptPath: '$(System.DefaultWorkingDirectory)/azurepipeline-python'
+          scriptPath: '/azurepipeline-python'
 
       # - script: |
       #     python -m pip install flake8
       #     flake8 .
       #   displayName: 'Run lint tests'
-      - task: KubernetesManifest@0
-        inputs:
-          action: 'deploy'
-          kubernetesServiceConnection: 'azure-pipeline-connection'
-          manifests: 'helm/templates/deployment.yml'
