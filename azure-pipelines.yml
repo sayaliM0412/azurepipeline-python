@@ -53,5 +53,5 @@ stages:
         chartType: 'FilePath'
         chartPath: 'helm/'
         releaseName: 'azurepipeline-trial'
-        arguments: '--install azurepipeline-trial -f values.yaml azure-pipeline-trial .'
-        # arguments: '--set tag=$(tag) --set name=azurepipeline-trial --set namespace=trial-azure-pipeline'
+        # arguments: '--install azurepipeline-trial -f values.yaml azure-pipeline-trial .'
+        arguments: 'helm upgrade --install azurepipeline-trial --namespace default ./'
