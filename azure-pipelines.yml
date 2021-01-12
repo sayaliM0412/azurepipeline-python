@@ -34,7 +34,21 @@ stages:
           scriptPath: '$(System.DefaultWorkingDirectory)/azurepipeline-python'
       - task: CmdLine@2
         inputs:
-          script: 'RUN ls'
+          script: |
+            echo "Structure of work folder of this pipeline:"
+            tree $(Agent.WorkFolder)\1 /f
+            
+            echo "Build.ArtifactStagingDirectory:" 
+            
+            echo "$(Build.ArtifactStagingDirectory)"
+            
+            echo "Build.BinariesDirectory:" 
+            
+            echo "$(Build.BinariesDirectory)"
+            
+            echo "Build.SourcesDirectory:"
+            
+            echo "$(Build.SourcesDirectory)"
       - task: UsePythonVersion@0
         inputs:
           versionSpec: '3.x'
