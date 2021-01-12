@@ -1,41 +1,31 @@
-variables:
-  python.version: "Latest"
-
 trigger:
 - main
+  
+# pr:
+#   branches:
+#     include:
+#       - dev
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
 
 stages:
-- stage: build
-  displayName: Build
-  pool:
-    vmImage: 'ubuntu-latest'
-  jobs:
-  - job: 'Build'
-    displayName: build solution  
-    steps:
-    - script: echo Hello, world!
-      displayName: 'Run a one-line script'
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
 
-    - task: KubernetesManifest@0
+
+    steps:
+    - task: Docker@2
       inputs:
-        action: 'deploy'
-        kubernetesServiceConnection: 'azure-pipeline-connection'
-        manifests: '/helm/templates/deployment.yml'
-
-- stage: test
-  displayName: Test
-  dependsOn:
-  - build
-  jobs:
-  - job: test_python_solution
-    displayName: test python solution
-    steps:
-      - task: PythonScript@0
-        inputs:
-          scriptSource: 'filePath'
-          scriptPath: '/azurepipeline-python'
-
-      # - script: |
-      #     python -m pip install flake8
-      #     flake8 .
-      #   displayName: 'Run lint tests'
+        containerRegistry: 'testconnection'
+        repository: 'azurepipeline-python'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
