@@ -65,4 +65,4 @@ stages:
         chartType: 'FilePath'
         chartPath: 'helm/'
         valueFile: 'values.yaml'
-        arguments: '--install -f values.yaml azure-pipeline-trial .'
+        arguments: '--install azure-pipeline-trial .'
