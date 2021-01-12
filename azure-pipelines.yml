@@ -45,15 +45,23 @@ stages:
       inputs:
         helmVersionToInstall: '3.2.3'
 
+    # - task: HelmDeploy@0
+    #   inputs:
+    #     connectionType: 'Kubernetes Service Connection'
+    #     kubernetesServiceConnection: 'azure-pipeline-connection'
+    #     command: 'upgrade'
+    #     chartType: 'FilePath'
+    #     chartPath: 'helm/'
+    #     releaseName: azurepipeline-trial
+    #     # arguments: '--install azurepipeline-trial'
+    #     # arguments: '--install azurepipeline-trial -f values.yaml azure-pipeline-trial .'
+    #     # arguments: '--install azurepipeline-trial --namespace default ./'
+    #     # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
     - task: HelmDeploy@0
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceConnection: 'azure-pipeline-connection'
-        command: 'install'
+        command: 'upgrade'
         chartType: 'FilePath'
         chartPath: 'helm/'
-        releaseName: 'azurepipeline-trial'
-        # arguments: '--install azurepipeline-trial'
-        # arguments: '--install azurepipeline-trial -f values.yaml azure-pipeline-trial .'
-        # arguments: '--install azurepipeline-trial --namespace default ./'
-        # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
+        valueFile: 'helm/values.yaml'
