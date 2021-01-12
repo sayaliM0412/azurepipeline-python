@@ -16,15 +16,11 @@ stages:
     - script: echo Hello, world!
       displayName: 'Run a one-line script'
 
-    - script: |
-        echo Add other tasks to build, test, and deploy your project.
-      displayName: 'Run a multi-line script'
-
     - task: KubernetesManifest@0
       inputs:
         action: 'deploy'
         kubernetesServiceConnection: 'azure-pipeline-connection'
-        manifests: 'helm/templates/deployment.yml'
+        manifests: '/helm/templates/deployment.yml'
 
 - stage: test
   displayName: Test
