@@ -53,7 +53,7 @@ stages:
         command: 'upgrade'
         chartType: 'FilePath'
         chartPath: 'helm'
-        valueFile: 'values.yaml'
+        valueFile: 'helm/values.yaml'
         releaseName: azurepipeline-trial
         # arguments: '--install azurepipeline-trial'
         # arguments: '--install -f values.yaml azurepipeline-trial .'
