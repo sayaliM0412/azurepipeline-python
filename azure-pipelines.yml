@@ -31,7 +31,10 @@ stages:
       - task: PythonScript@0
         inputs:
           scriptSource: 'filePath'
-          scriptPath: '$(System.DefaultWorkingDirectory)'
+          scriptPath: '$(System.DefaultWorkingDirectory)/azurepipeline-python'
+      - task: CmdLine@2
+        inputs:
+          script: 'RUN ls'
       - task: UsePythonVersion@0
         inputs:
           versionSpec: '3.x'
