@@ -56,7 +56,7 @@ stages:
         valueFile: 'helm/values.yaml'
         releaseName: azurepipeline-trial
         arguments: '--namespace test'
-        useClusterAdmin: true
+        useClusterAdmin: false
         # arguments: '--install -f values.yaml azurepipeline-trial .'
         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
         # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
