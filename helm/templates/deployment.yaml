@@ -10,8 +10,8 @@ spec:
       app: trial-azure-pipeline
   template:
     metadata:
-      annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+      # annotations:
+      #   checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       labels:
         app: trial-azure-pipeline
     spec:
@@ -21,7 +21,7 @@ spec:
       containers:
         - name: trial-azure-pipeline
           image: {{ printf "%s:%s" .Values.image_repo .Values.image_tag }}
-          envFrom:
-            - secretRef:
-                name: trial-azure-pipeline-config
+          # envFrom:
+          #   - secretRef:
+          #       name: trial-azure-pipeline-config
 
