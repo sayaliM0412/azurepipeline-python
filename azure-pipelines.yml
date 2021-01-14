@@ -34,7 +34,7 @@ stages:
       inputs:
         # scriptSource: 'filePath'
         scriptPath: 'test_file.py'
-    - script: python $(Build.SourcesDirectory)'
+    - script: python $(Build.SourcesDirectory)/app'
 
     - task: Docker@2
       inputs:
