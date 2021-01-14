@@ -49,15 +49,15 @@ stages:
         kubectlVersion: '1.16.15'
         
 
-    - task: HelmDeploy@0
-      displayName: "Delete Helm Chart"
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceConnection: 'azure-pipeline-connection'
-        namespace: 'test'
-        command: 'delete'
-        arguments: 'azurepipeline-trial'
-        # releaseName: azurepipeline-trial
+    # - task: HelmDeploy@0
+    #   displayName: "Delete Helm Chart"
+    #   inputs:
+    #     connectionType: 'Kubernetes Service Connection'
+    #     kubernetesServiceConnection: 'azure-pipeline-connection'
+    #     namespace: 'test'
+    #     command: 'delete'
+    #     arguments: 'azurepipeline-trial'
+    #     # releaseName: azurepipeline-trial
 
     - task: HelmDeploy@0
       displayName: "Install Helm Chart"
