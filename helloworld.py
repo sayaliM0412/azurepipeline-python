@@ -2,22 +2,16 @@ import unittest
 
 
 # Create the class
-class MyClass(unittest.TestCase):
+class MyClass():
 
-    def MyFunc(self):
+    def HelloWorld(self):
         return "Hello World"
 
 # Create an object from the class
 o = MyClass()
 
-# Now we can work with the object
-print(o.MyFunc())
-
-
-def test_mock():
-    print("success")
-    assert True
 
 
 if __name__ == '__main__':
-    unittest.main()
+    while True:
+        pass
