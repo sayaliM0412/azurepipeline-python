@@ -32,8 +32,8 @@ stages:
     steps:
     - task: PythonScript@0
       inputs:
-        # scriptSource: 'filePath'
-    - script: python $(Build.SourcesDirectory)/app'
+        scriptSource: 'filePath'
+        scriptPath: '$(System.DefaultWorkingDirectory)/test_file.py'
 
     - task: Docker@2
       inputs:
