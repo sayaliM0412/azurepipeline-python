@@ -1,5 +1,5 @@
 FROM python:3
-COPY . .
-RUN ls
+WORKDIR /app
+COPY . ./
 EXPOSE 3333
 ENTRYPOINT [ "python", "./test_suite.py"]
