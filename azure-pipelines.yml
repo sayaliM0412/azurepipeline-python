@@ -33,7 +33,7 @@ stages:
     - task: PythonScript@0
       inputs:
         scriptSource: 'filePath'
-        scriptPath: '$(System.DefaultWorkingDirectory)/test_file.py'
+        scriptPath: 'test_file.py'
 
     - task: Docker@2
       inputs:
