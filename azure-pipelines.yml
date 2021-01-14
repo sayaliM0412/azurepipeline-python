@@ -33,7 +33,6 @@ stages:
     - task: PythonScript@0
       inputs:
         # scriptSource: 'filePath'
-        scriptPath: 'test_file.py'
     - script: python $(Build.SourcesDirectory)/app'
 
     - task: Docker@2
