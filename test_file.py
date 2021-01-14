@@ -1,6 +1,5 @@
 import unittest
 import helloworld
-import summation
 
 class test_suite(unittest.TestCase):
     def test_helloworld(self):
