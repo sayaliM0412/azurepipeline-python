@@ -14,7 +14,7 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build image
+  displayName: Build Microsoft Agent image
   jobs:  
   - job: Build
     displayName: Build
@@ -40,16 +40,22 @@ stages:
         scriptSource: 'filePath'
         scriptPath: 'test_file.py'
 
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'testconnection'
-        repository: 'azurepipeline-python'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
+- stage:
+  displayName: Docker Image Build
+  jobs:
+    - job: docker_image_build
+      displayName: docker image build
+      steps:
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'testconnection'
+            repository: 'azurepipeline-python'
+            command: 'buildAndPush'
+            Dockerfile: '**/Dockerfile'
+            tags: '$(tag)'
 
 - stage: Deploy
-  displayName: Deploy Helm
+  displayName: Deploy Helm Chart for Service
   jobs:  
   - job: Deploy
     displayName: Deploy Helm
