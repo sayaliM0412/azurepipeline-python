@@ -56,7 +56,7 @@ stages:
         kubernetesServiceConnection: 'azure-pipeline-connection'
         namespace: 'test'
         command: 'delete'
-        arguments: '--purge azurepipeline-trial'
+        arguments: 'azurepipeline-trial'
         # releaseName: azurepipeline-trial
 
     - task: HelmDeploy@0
