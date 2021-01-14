@@ -30,11 +30,11 @@ stages:
   - job: test_python_solution
     displayName: test python solution
     steps:
-    - task: CmdLine@2
-      inputs:
-        script: |
-          cd $(System.DefaultWorkingDirectory)
-          ls
+    # - task: CmdLine@2
+    #   inputs:
+    #     script: |
+    #       cd $(System.DefaultWorkingDirectory)
+    #       ls
     - task: PythonScript@0
       inputs:
         scriptSource: 'filePath'
