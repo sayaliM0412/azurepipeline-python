@@ -1,4 +1,5 @@
 FROM python:3
-ADD helloworld.py /
+COPY . .
+RUN ls
 EXPOSE 3333
-CMD [ "python", "./helloworld.py"]
+ENTRYPOINT [ "python", "./test_suite.py"]

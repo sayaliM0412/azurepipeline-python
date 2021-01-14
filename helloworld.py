@@ -1,5 +1,8 @@
+import unittest
+
+
 # Create the class
-class MyClass:
+class MyClass(unittest.TestCase):
 
     def MyFunc(self):
         return "Hello World"
@@ -9,5 +12,12 @@ o = MyClass()
 
 # Now we can work with the object
 print(o.MyFunc())
-while 1:
-    pass
+
+
+def test_mock():
+    print("success")
+    assert True
+
+
+if __name__ == '__main__':
+    unittest.main()
