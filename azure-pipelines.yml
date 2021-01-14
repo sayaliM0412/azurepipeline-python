@@ -30,7 +30,11 @@ stages:
   - job: test_python_solution
     displayName: test python solution
     steps:
-    - script: python /test_file.py'
+    - task: PythonScript@0
+      inputs:
+        # scriptSource: 'filePath'
+        scriptPath: 'test_file.py'
+    - script: python $(Build.SourcesDirectory)'
 
     - task: Docker@2
       inputs:
