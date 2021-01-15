@@ -54,7 +54,7 @@ stages:
             Dockerfile: '**/Dockerfile'
             tags: '$(tag)'
 
-- stage: deploy helm chart
+- stage: deploy_helm_chart
   displayName: Deploy Helm Chart for Service
   jobs:  
   - job: Deploy
@@ -103,7 +103,7 @@ stages:
 - stage: uat
   displayName: UAT
   dependsOn:
-  - deploy helm chart
+  - deploy_helm_chart
   jobs:
   - job: uat_environment_helm_chart
     displayName: UAT Environment
