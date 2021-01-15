@@ -23,7 +23,7 @@ stages:
 
 
 - stage: test
-  displayName: Test Python Code
+  displayName: Run Tests
   dependsOn:
   - build
   jobs:
