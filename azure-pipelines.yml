@@ -13,7 +13,7 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: Build
+- stage: build
   displayName: Build Microsoft Agent image
   jobs:  
   - job: Build
@@ -54,7 +54,7 @@ stages:
             Dockerfile: '**/Dockerfile'
             tags: '$(tag)'
 
-- stage: Deploy
+- stage: deploy helm chart
   displayName: Deploy Helm Chart for Service
   jobs:  
   - job: Deploy
@@ -71,6 +71,7 @@ stages:
         installKubectl: true
         kubectlVersion: '1.16.15'
         
+###################################For TEST ENVIRONMENT ########################################################
 
     # - task: HelmDeploy@0
     #   displayName: "Delete Helm Chart"
@@ -97,22 +98,16 @@ stages:
         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
         # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
 
-###################################For UAT ########################################################
+###################################For UAT ENVIRONMENT########################################################
 
 - stage: uat
   displayName: UAT
   dependsOn:
-  - test
+  - deploy helm chart
   jobs:
   - job: uat_environment_helm_chart
     displayName: UAT Environment
     steps:
-      - task: HelmInstaller@0
-        displayName: "Install Helm"
-        inputs:
-          helmVersion: '3.5.0'
-          installKubectl: true
-          kubectlVersion: '1.16.15'
 
     # - task: HelmDeploy@0
     #   displayName: "Delete Helm Chart"
