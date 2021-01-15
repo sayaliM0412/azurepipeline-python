@@ -102,7 +102,7 @@ stages:
 - stage: uat
   displayName: UAT
   dependsOn:
-  - build
+  - test
   jobs:
   - job: uat_environment_helm_chart
     displayName: UAT Environment
