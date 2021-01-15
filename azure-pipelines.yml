@@ -73,58 +73,59 @@ stages:
           kubectlVersion: '1.16.15'
         
 ###################################For TEST ENVIRONMENT ########################################################
-- stage: test_env
-  displayName: "Test Env" 
-  dependsOn:
-  - helm_chart_setup
-  jobs:
-  - job: test_environment_helm_chart
-    displayName: "TEST Environment "
-    steps:
-    # - task: HelmDeploy@0
-    #   displayName: "Delete Helm Chart"
-    #   inputs:
-    #     connectionType: 'Kubernetes Service Connection'
-    #     kubernetesServiceConnection: 'azure-pipeline-connection'
-    #     namespace: 'test'
-    #     command: 'delete'
-    #     arguments: 'trial-azure-pipeline'
-    #     # releaseName: trial-azure-pipeline
+# - stage: test_env
+#   displayName: "Test Env" 
+#   dependsOn:
+#   - helm_chart_setup
+#   jobs:
+#   - job: test_environment_helm_chart
+#     displayName: "TEST Environment "
+#     steps:
+#     # - task: HelmDeploy@0
+#     #   displayName: "Delete Helm Chart"
+#     #   inputs:
+#     #     connectionType: 'Kubernetes Service Connection'
+#     #     kubernetesServiceConnection: 'azure-pipeline-connection'
+#     #     namespace: 'test'
+#     #     command: 'delete'
+#     #     arguments: 'trial-azure-pipeline'
+#     #     # releaseName: trial-azure-pipeline
 
-    - task: HelmDeploy@0
-      displayName: "Test Env Install Helm Chart"
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceConnection: 'azure-pipeline-connection'
-        command: 'upgrade'
-        chartType: 'FilePath'
-        chartPath: 'helm'
-        valueFile: 'helm/values.yaml'
-        releaseName: trial-azure-pipeline
-        arguments: '--namespace test'
-        # arguments: '--install -f values.yaml azurepipeline-trial .'
-        # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
-        # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
+#     - task: HelmDeploy@0
+#       displayName: "Test Env Install Helm Chart"
+#       inputs:
+#         connectionType: 'Kubernetes Service Connection'
+#         kubernetesServiceConnection: 'azure-pipeline-connection'
+#         command: 'upgrade'
+#         chartType: 'FilePath'
+#         chartPath: 'helm'
+#         valueFile: 'helm/values.yaml'
+#         releaseName: trial-azure-pipeline
+#         arguments: '--namespace test'
+#         # arguments: '--install -f values.yaml azurepipeline-trial .'
+#         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
+#         # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
 
 ###################################For UAT ENVIRONMENT########################################################
 
 - stage: uat_env
   displayName: "UAT Env" 
   dependsOn:
-  - test_env
+  # - test_env
+  - helm_chart_setup
   jobs:
   - job: uat_environment_helm_chart
     displayName: "UAT Environment "
     steps:
-    # - task: HelmDeploy@0
-    #   displayName: "Delete Helm Chart"
-    #   inputs:
-    #     connectionType: 'Kubernetes Service Connection'
-    #     kubernetesServiceConnection: 'azure-pipeline-connection'
-    #     namespace: 'test'
-    #     command: 'delete'
-    #     arguments: 'trial-azure-pipeline'
-    #     # releaseName: trial-azure-pipeline
+    - task: HelmDeploy@0
+      displayName: "Delete Helm Chart"
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: 'azure-pipeline-connection-uat'
+        namespace: 'uat'
+        command: 'delete'
+        arguments: 'trial-azure-pipeline'
+        # releaseName: trial-azure-pipeline
 
     - task: HelmDeploy@0
       displayName: "UAT Env Install Helm Chart"
