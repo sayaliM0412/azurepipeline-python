@@ -134,7 +134,7 @@ stages:
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceConnection: 'azure-pipeline-connection-uat'
-        command: 'upgrade'
+        command: 'install'
         chartType: 'FilePath'
         chartPath: 'helm'
         valueFile: 'helm/values.yaml'
