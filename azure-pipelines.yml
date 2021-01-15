@@ -125,7 +125,13 @@ stages:
     #     command: 'delete'
     #     arguments: 'azurepipeline-trial'
     #     # releaseName: azurepipeline-trial
-
+    - task: HelmInstaller@0
+      displayName: "Install Helm"
+      inputs:
+        helmVersion: '3.5.0'
+        installKubectl: true
+        kubectlVersion: '1.16.15'
+        
     - task: HelmDeploy@0
       displayName: "Install Helm Chart"
       inputs:
