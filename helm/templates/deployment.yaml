@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trial-azure-pipeline
+  name: trial
   labels:
-    app: trial-azure-pipeline
+    app: trial
 spec:
   selector:
     matchLabels:
-      app: trial-azure-pipeline
+      app: trial
   template:
     metadata:
       labels:
-        app: trial-azure-pipeline
+        app: trial
     spec:
     #   imagePullSecrets:
     #     - name: docker-mm-nexus
     #   serviceAccountName: alchemy
       containers:
-        - name: trial-azure-pipeline
+        - name: trial
           image: {{ printf "%s:%s" .Values.image_repo .Values.image_tag }}
