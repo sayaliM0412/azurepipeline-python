@@ -40,19 +40,21 @@ stages:
         scriptSource: 'filePath'
         scriptPath: 'test_file.py'
 
-# - stage:
-#   displayName: Docker Image Build
-#   jobs:
-#     - job: docker_image_build
-#       displayName: docker image build
-#       steps:
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'testconnection'
-        repository: 'azurepipeline-python'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
+- stage: helm_chart_setup
+  displayName: Setup for Helm Chart Deployment
+  dependsOn:
+  - test
+  jobs:
+    - job: docker_image_build
+      displayName: docker image build
+      steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'testconnection'
+          repository: 'azurepipeline-python'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: '$(tag)'
 
 # - stage: deploy_helm_chart
 #   displayName: Deploy Helm Chart for Service
@@ -63,12 +65,12 @@ stages:
 #       vmImage: 'ubuntu-latest'
 
 #     steps:
-    - task: HelmInstaller@0
-      displayName: "Install Helm"
-      inputs:
-        helmVersion: '3.5.0'
-        installKubectl: true
-        kubectlVersion: '1.16.15'
+      - task: HelmInstaller@0
+        displayName: "Install Helm"
+        inputs:
+          helmVersion: '3.5.0'
+          installKubectl: true
+          kubectlVersion: '1.16.15'
         
 ###################################For TEST ENVIRONMENT ########################################################
 - stage: test_env
@@ -109,7 +111,7 @@ stages:
 - stage: uat_env
   displayName: "UAT Env" 
   dependsOn:
-  - build
+  - test_env
   jobs:
   - job: uat_environment_helm_chart
     displayName: "UAT Environment "
