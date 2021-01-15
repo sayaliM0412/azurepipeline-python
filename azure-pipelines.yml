@@ -1,10 +1,12 @@
 trigger:
-- main
+- master
   
-# pr:
-#   branches:
-#     include:
-#       - dev
+pr:
+  branches:
+    include:
+      - master
+
+
 
 resources:
 - repo: self
@@ -13,7 +15,7 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: Build
+- stage: build
   displayName: Build Microsoft Agent image
   jobs:  
   - job: Build
@@ -23,7 +25,7 @@ stages:
 
 
 - stage: test
-  displayName: Test Python Code
+  displayName: Run Tests
   dependsOn:
   - build
   jobs:
@@ -40,59 +42,104 @@ stages:
         scriptSource: 'filePath'
         scriptPath: 'test_file.py'
 
-- stage:
-  displayName: Docker Image Build
+- stage: helm_chart_setup
+  displayName: Setup for Helm Chart Deployment
+  dependsOn:
+  - test
   jobs:
     - job: docker_image_build
       displayName: docker image build
       steps:
-        - task: Docker@2
-          inputs:
-            containerRegistry: 'testconnection'
-            repository: 'azurepipeline-python'
-            command: 'buildAndPush'
-            Dockerfile: '**/Dockerfile'
-            tags: '$(tag)'
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'testconnection'
+          repository: 'azurepipeline-python'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: '$(tag)'
 
-- stage: Deploy
-  displayName: Deploy Helm Chart for Service
-  jobs:  
-  - job: Deploy
-    displayName: Deploy Helm
-    pool:
-      vmImage: 'ubuntu-latest'
+# - stage: deploy_helm_chart
+#   displayName: Deploy Helm Chart for Service
+#   jobs:  
+#   - job: Deploy
+#     displayName: Deploy Helm
+#     pool:
+#       vmImage: 'ubuntu-latest'
 
-    steps:
-
-    - task: HelmInstaller@0
-      displayName: "Install Helm"
-      inputs:
-        helmVersion: '3.5.0'
-        installKubectl: true
-        kubectlVersion: '1.16.15'
+#     steps:
+      - task: HelmInstaller@0
+        displayName: "Install Helm"
+        inputs:
+          helmVersion: '3.5.0'
+          installKubectl: true
+          kubectlVersion: '1.16.15'
         
+###################################For TEST ENVIRONMENT ########################################################
+# - stage: test_env
+#   displayName: "Test Env" 
+#   dependsOn:
+#   - helm_chart_setup
+#   jobs:
+#   - job: test_environment_helm_chart
+#     displayName: "TEST Environment "
+#     steps:
+#     # - task: HelmDeploy@0
+#     #   displayName: "Delete Helm Chart"
+#     #   inputs:
+#     #     connectionType: 'Kubernetes Service Connection'
+#     #     kubernetesServiceConnection: 'azure-pipeline-connection'
+#     #     namespace: 'test'
+#     #     command: 'delete'
+#     #     arguments: 'trial-azure-pipeline'
+#     #     # releaseName: trial-azure-pipeline
 
+#     - task: HelmDeploy@0
+#       displayName: "Test Env Install Helm Chart"
+#       inputs:
+#         connectionType: 'Kubernetes Service Connection'
+#         kubernetesServiceConnection: 'azure-pipeline-connection'
+#         command: 'upgrade'
+#         chartType: 'FilePath'
+#         chartPath: 'helm'
+#         valueFile: 'helm/values.yaml'
+#         releaseName: trial-azure-pipeline
+#         arguments: '--namespace test'
+#         # arguments: '--install -f values.yaml azurepipeline-trial .'
+#         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
+#         # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
+
+###################################For UAT ENVIRONMENT########################################################
+
+- stage: uat_env
+  displayName: "UAT Env" 
+  dependsOn:
+  # - test_env
+  - helm_chart_setup
+  jobs:
+  - job: uat_environment_helm_chart
+    displayName: "UAT Environment "
+    steps:
     # - task: HelmDeploy@0
     #   displayName: "Delete Helm Chart"
     #   inputs:
     #     connectionType: 'Kubernetes Service Connection'
-    #     kubernetesServiceConnection: 'azure-pipeline-connection'
-    #     namespace: 'test'
+    #     kubernetesServiceConnection: 'azure-pipeline-connection-uat'
+    #     namespace: 'uat'
     #     command: 'delete'
-    #     arguments: 'azurepipeline-trial'
-    #     # releaseName: azurepipeline-trial
+    #     arguments: 'trial-azure-pipeline'
+    #     # releaseName: trial-azure-pipeline
 
     - task: HelmDeploy@0
-      displayName: "Install Helm Chart"
+      displayName: "UAT Env Install Helm Chart"
       inputs:
         connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceConnection: 'azure-pipeline-connection'
-        command: 'upgrade'
+        kubernetesServiceConnection: 'azure-pipeline-connection-uat'
+        command: 'install'
         chartType: 'FilePath'
         chartPath: 'helm'
         valueFile: 'helm/values.yaml'
         releaseName: trial-azure-pipeline
-        arguments: '--namespace test'
+        arguments: '--namespace uat --debug'
         # arguments: '--install -f values.yaml azurepipeline-trial .'
         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
         # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
