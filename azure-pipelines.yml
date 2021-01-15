@@ -1,10 +1,12 @@
 trigger:
-- main
+- master
   
 pr:
   branches:
     include:
-      - main
+      - master
+
+
 
 resources:
 - repo: self
