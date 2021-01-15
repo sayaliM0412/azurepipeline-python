@@ -117,15 +117,15 @@ stages:
   - job: uat_environment_helm_chart
     displayName: "UAT Environment "
     steps:
-    # - task: HelmDeploy@0
-    #   displayName: "Delete Helm Chart"
-    #   inputs:
-    #     connectionType: 'Kubernetes Service Connection'
-    #     kubernetesServiceConnection: 'azure-pipeline-connection-uat'
-    #     namespace: 'uat'
-    #     command: 'delete'
-    #     arguments: 'trial-azure-pipeline'
-    #     # releaseName: trial-azure-pipeline
+    - task: HelmDeploy@0
+      displayName: "Delete Helm Chart"
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: 'azure-pipeline-connection-uat'
+        namespace: 'uat'
+        command: 'delete'
+        arguments: 'trial-azure-pipeline'
+        # releaseName: trial-azure-pipeline
 
     - task: HelmDeploy@0
       displayName: "UAT Env Install Helm Chart"
