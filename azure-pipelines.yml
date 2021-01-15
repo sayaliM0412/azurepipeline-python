@@ -76,7 +76,7 @@ stages:
 - stage: test_env
   displayName: "Test Env" 
   dependsOn:
-  - build
+  - helm_chart_setup
   jobs:
   - job: test_environment_helm_chart
     displayName: "TEST Environment "
