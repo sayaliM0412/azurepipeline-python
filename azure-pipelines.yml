@@ -106,33 +106,35 @@ stages:
 
 ###################################For UAT ENVIRONMENT########################################################
 
-# - stage: uat
-#   displayName: UAT
-#   dependsOn:
-#   # - test_env
-#   - test
-#   jobs:
-#   - job: uat_environment_helm_chart
-#     displayName: "UAT Environment "
-#     steps:
+- stage: uat_env
+  displayName: "UAT Env" 
+  dependsOn:
+  - build
+  jobs:
+  - job: uat_environment_helm_chart
+    displayName: "UAT Environment "
+    steps:
+    # - task: HelmDeploy@0
+    #   displayName: "Delete Helm Chart"
+    #   inputs:
+    #     connectionType: 'Kubernetes Service Connection'
+    #     kubernetesServiceConnection: 'azure-pipeline-connection'
+    #     namespace: 'test'
+    #     command: 'delete'
+    #     arguments: 'trial-azure-pipeline'
+    #     # releaseName: trial-azure-pipeline
 
-#     # - task: HelmDeploy@0
-#     #   displayName: "Delete Helm Chart"
-#     #   inputs:
-#     #     connectionType: 'Kubernetes Service Connection'
-#     #     kubernetesServiceConnection: 'azure-pipeline-connection-uat'
-#     #     namespace: 'uat'
-#     #     command: 'delete'
-#     #     arguments: 'trial-azure-pipeline'
-#     #     # releaseName: trial-azure-pipeline
-#     - task: HelmDeploy@0
-#       displayName: "Install Helm Chart"
-#       inputs:
-#         connectionType: 'Kubernetes Service Connection'
-#         kubernetesServiceConnection: 'azure-pipeline-connection-uat'
-#         command: 'upgrade'
-#         chartType: 'FilePath'
-#         chartPath: 'helm'
-#         valueFile: 'helm/values.yaml'
-#         releaseName: trial-azure-pipeline
-#         arguments: '--namespace uat'
+    - task: HelmDeploy@0
+      displayName: "UAT Env Install Helm Chart"
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: 'azure-pipeline-connection-uat'
+        command: 'upgrade'
+        chartType: 'FilePath'
+        chartPath: 'helm'
+        valueFile: 'helm/values.yaml'
+        releaseName: trial-azure-pipeline
+        arguments: '--namespace uat'
+        # arguments: '--install -f values.yaml azurepipeline-trial .'
+        # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
+        # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
