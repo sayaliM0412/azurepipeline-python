@@ -40,30 +40,29 @@ stages:
         scriptSource: 'filePath'
         scriptPath: 'test_file.py'
 
-- stage:
-  displayName: Docker Image Build
-  jobs:
-    - job: docker_image_build
-      displayName: docker image build
-      steps:
-        - task: Docker@2
-          inputs:
-            containerRegistry: 'testconnection'
-            repository: 'azurepipeline-python'
-            command: 'buildAndPush'
-            Dockerfile: '**/Dockerfile'
-            tags: '$(tag)'
+# - stage:
+#   displayName: Docker Image Build
+#   jobs:
+#     - job: docker_image_build
+#       displayName: docker image build
+#       steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'testconnection'
+        repository: 'azurepipeline-python'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
 
-- stage: deploy_helm_chart
-  displayName: Deploy Helm Chart for Service
-  jobs:  
-  - job: Deploy
-    displayName: Deploy Helm
-    pool:
-      vmImage: 'ubuntu-latest'
+# - stage: deploy_helm_chart
+#   displayName: Deploy Helm Chart for Service
+#   jobs:  
+#   - job: Deploy
+#     displayName: Deploy Helm
+#     pool:
+#       vmImage: 'ubuntu-latest'
 
-    steps:
-
+#     steps:
     - task: HelmInstaller@0
       displayName: "Install Helm"
       inputs:
@@ -72,7 +71,14 @@ stages:
         kubectlVersion: '1.16.15'
         
 ###################################For TEST ENVIRONMENT ########################################################
-
+- stage: test_env
+  displayName: "Test Env" 
+  dependsOn:
+  - build
+  jobs:
+  - job: test_environment_helm_chart
+    displayName: "TEST Environment "
+    steps:
     # - task: HelmDeploy@0
     #   displayName: "Delete Helm Chart"
     #   inputs:
@@ -84,7 +90,7 @@ stages:
     #     # releaseName: azurepipeline-trial
 
     - task: HelmDeploy@0
-      displayName: "Install Helm Chart"
+      displayName: "Test Env Install Helm Chart"
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceConnection: 'azure-pipeline-connection'
@@ -103,10 +109,10 @@ stages:
 - stage: uat
   displayName: UAT
   dependsOn:
-  - deploy_helm_chart
+  - test_env
   jobs:
   - job: uat_environment_helm_chart
-    displayName: UAT Environment
+    displayName: "UAT Environment "
     steps:
 
     # - task: HelmDeploy@0
