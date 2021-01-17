@@ -42,21 +42,21 @@ stages:
         scriptSource: 'filePath'
         scriptPath: 'test_file.py'
 
-- stage: helm_chart_setup
-  displayName: Setup for Helm Chart Deployment
-  dependsOn:
-  - test
-  jobs:
-    - job: docker_image_build
-      displayName: docker image build
-      steps:
-      - task: Docker@2
-        inputs:
-          containerRegistry: 'testconnection'
-          repository: 'azurepipeline-python'
-          command: 'buildAndPush'
-          Dockerfile: '**/Dockerfile'
-          tags: 'latest'
+# - stage: helm_chart_setup
+#   displayName: Setup for Helm Chart Deployment
+#   dependsOn:
+#   - test
+#   jobs:
+#     - job: docker_image_build
+#       displayName: docker image build
+#       steps:
+#       - task: Docker@2
+#         inputs:
+#           containerRegistry: 'testconnection'
+#           repository: 'azurepipeline-python'
+#           command: 'buildAndPush'
+#           Dockerfile: '**/Dockerfile'
+#           tags: 'latest'
 
 # - stage: deploy_helm_chart
 #   displayName: Deploy Helm Chart for Service
@@ -114,7 +114,7 @@ stages:
   displayName: "UAT Env" 
   dependsOn:
   # - test_env
-  - helm_chart_setup
+  # - helm_chart_setup
   jobs:
   - job: uat_environment_helm_chart
     displayName: "UAT Environment "
@@ -134,7 +134,7 @@ stages:
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceConnection: 'azure-pipeline-connection-uat'
-        command: 'install'
+        command: 'upgrade'
         chartType: 'FilePath'
         chartPath: 'helm'
         valueFile: 'helm/values.yaml'

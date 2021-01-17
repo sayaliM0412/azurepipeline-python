@@ -3,6 +3,8 @@ service_account: azure-devops-admin
 
 image_repo: docker.magicmemories.com/trial-azure-pipeline-new # required!
 
-image_tag: latest # required, but typically supplied directly on the command line
+image_tag: 1.1.1 # required, but typically supplied directly on the command line
 
 image_pull_secret: docker-mm-nexus
+
+always_pull_images: true
