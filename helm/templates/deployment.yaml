@@ -13,9 +13,7 @@ spec:
       labels:
         app: trial
     spec:
-    #   imagePullSecrets:
-    #     - name: docker-mm-nexus
-    #   serviceAccountName: alchemy
+      serviceAccountName: azure-devops-admin
       containers:
         - name: trial
           image: {{ printf "%s:%s" .Values.image_repo .Values.image_tag }}
