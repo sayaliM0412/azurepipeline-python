@@ -138,7 +138,7 @@ stages:
         chartType: 'FilePath'
         chartPath: 'helm'
         valueFile: 'helm/values.yaml'
-        releaseName: trial
+        releaseName: trial-azure-pipeline
         arguments: '--namespace uat --debug'
         # arguments: '--install -f values.yaml azurepipeline-trial .'
         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
