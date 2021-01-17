@@ -1,19 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trial
+  name: trial-azure-pipeline
   labels:
-    app: trial
+    app: trial-azure-pipeline
 spec:
   selector:
     matchLabels:
-      app: trial
+      app: trial-azure-pipeline
   template:
     metadata:
       labels:
-        app: trial
+        app: trial-azure-pipeline
     spec:
       serviceAccountName: azure-devops-admin
       containers:
-        - name: trial
-          image: {{ printf "%s:%s" .Values.image_repo .Values.image_tag }}
+        - name: trial-azure-pipeline
