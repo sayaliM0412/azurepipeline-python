@@ -114,7 +114,7 @@ stages:
   displayName: "UAT Env" 
   dependsOn:
   # - test_env
-  # - helm_chart_setup
+  - helm_chart_setup
   jobs:
   - job: uat_environment_helm_chart
     displayName: "UAT Environment "
