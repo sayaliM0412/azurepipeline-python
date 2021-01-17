@@ -16,3 +16,4 @@ spec:
       serviceAccountName: azure-devops-admin
       containers:
         - name: trial-azure-pipeline-new
+          image: {{ printf "%s:%s" .Values.image_repo .Values.image_tag }} 
