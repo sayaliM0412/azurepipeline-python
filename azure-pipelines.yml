@@ -42,21 +42,21 @@ stages:
         scriptSource: 'filePath'
         scriptPath: 'test_file.py'
 
-# - stage: helm_chart_setup
-#   displayName: Setup for Helm Chart Deployment
-#   dependsOn:
-#   - test
-#   jobs:
-#     - job: docker_image_build
-#       displayName: docker image build
-#       steps:
-#       - task: Docker@2
-#         inputs:
-#           containerRegistry: 'testconnection'
-#           repository: 'azurepipeline-python'
-#           command: 'buildAndPush'
-#           Dockerfile: '**/Dockerfile'
-#           tags: 'latest'
+- stage: helm_chart_setup
+  displayName: Setup for Helm Chart Deployment
+  dependsOn:
+  - test
+  jobs:
+    - job: docker_image_build
+      displayName: docker image build
+      steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'testconnection'
+          repository: 'azurepipeline-python'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: '1.1.1'
 
 # - stage: deploy_helm_chart
 #   displayName: Deploy Helm Chart for Service
