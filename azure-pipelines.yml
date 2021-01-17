@@ -56,7 +56,7 @@ stages:
           repository: 'azurepipeline-python'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
-          tags: '$(tag)'
+          tags: 'latest'
 
 # - stage: deploy_helm_chart
 #   displayName: Deploy Helm Chart for Service
@@ -134,12 +134,12 @@ stages:
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceConnection: 'azure-pipeline-connection-uat'
-        command: 'upgrade'
+        command: 'install'
         chartType: 'FilePath'
         chartPath: 'helm'
         valueFile: 'helm/values.yaml'
         releaseName: trial-azure-pipeline-new
-        arguments: '--install --namespace uat --debug'
+        arguments: '--namespace uat --debug'
         # arguments: '--install -f values.yaml azurepipeline-trial .'
         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
         # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
