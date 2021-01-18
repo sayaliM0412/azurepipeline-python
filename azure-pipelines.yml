@@ -123,35 +123,34 @@ stages:
   - deployment: DeployJobUAT
     displayName: "UAT Environment "
     environment: 'uat-env'
-    # strategy: 
-    #  runOnce:
-    #    deploy:
-    #      steps:
-    #      - script: 
-    steps:
-    # - task: HelmDeploy@0
-    #   displayName: "Delete Helm Chart"
-    #   inputs:
-    #     connectionType: 'Kubernetes Service Connection'
-    #     kubernetesServiceConnection: 'azure-pipeline-connection-uat'
-    #     namespace: 'uat'
-    #     command: 'delete'
-    #     arguments: 'trial-azure-pipeline'
-    #     # releaseName: trial-azure-pipeline
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+        # - task: HelmDeploy@0
+            #   displayName: "Delete Helm Chart"
+            #   inputs:
+            #     connectionType: 'Kubernetes Service Connection'
+            #     kubernetesServiceConnection: 'azure-pipeline-connection-uat'
+            #     namespace: 'uat'
+            #     command: 'delete'
+            #     arguments: 'trial-azure-pipeline'
+            #     # releaseName: trial-azure-pipeline
   
-    - task: HelmDeploy@0
-      displayName: "UAT Env Install Helm Chart"
-      
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceConnection: 'azure-pipeline-connection-uat'
-        command: 'upgrade'
-        chartType: 'FilePath'
-        chartPath: 'helm'
-        valueFile: 'helm/values.yaml'
-        releaseName: azurepipeline-python
-        arguments: '--namespace uat --debug --set image_tag=$(GIT_COMMIT_HASH)'
 
-        # arguments: '--install -f values.yaml azurepipeline-trial .'
-        # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
-        # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
+          - task: HelmDeploy@0
+            displayName: "UAT Env Install Helm Chart"
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: 'azure-pipeline-connection-uat'
+              command: 'upgrade'
+              chartType: 'FilePath'
+              chartPath: 'helm'
+              valueFile: 'helm/values.yaml'
+              releaseName: azurepipeline-python
+              arguments: '--namespace uat --debug --set image_tag=$(GIT_COMMIT_HASH)'
+
+              # arguments: '--install -f values.yaml azurepipeline-trial .'
+              # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
+              # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
+
