@@ -138,7 +138,7 @@ stages:
                 arguments: '--namespace uat --debug --set image_tag=$(GIT_COMMIT_HASH)'
   # - job: uat_environment_helm_chart
     # displayName: "UAT Environment "
-    steps:
+    # steps:
     # - task: HelmDeploy@0
     #   displayName: "Delete Helm Chart"
     #   inputs:
