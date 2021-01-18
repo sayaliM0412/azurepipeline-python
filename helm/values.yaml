@@ -1,7 +1,6 @@
-action_name: trial-azure-pipeline-new # required!
 service_account: azure-devops-admin
 
-image_repo: docker.magicmemories.com/azurepipeline-python # required!
+image_repo: docker.magicmemories.com/azurepipeline-python
 
 image_pull_secret: docker-mm-nexus
 
