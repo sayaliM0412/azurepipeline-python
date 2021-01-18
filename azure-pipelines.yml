@@ -113,14 +113,31 @@ stages:
 ###################################For UAT ENVIRONMENT########################################################
 
 - stage: uat_env
-  displayName: "UAT Env" 
+  # displayName: "UAT Env" 
   
   # dependsOn:
   # - test_env
   # - helm_chart_setup
   jobs:
-  - job: uat_environment_helm_chart
-    displayName: "UAT Environment "
+  - deployment: "UAT"
+    environment: "Uat"
+    strategy:
+      canary:
+        deploy:
+          steps:
+            - task: HelmDeploy@0
+              displayName: "UAT Env Install Helm Chart"
+              inputs:
+                connectionType: 'Kubernetes Service Connection'
+                kubernetesServiceConnection: 'azure-pipeline-connection-uat'
+                command: 'upgrade'
+                chartType: 'FilePath'
+                chartPath: 'helm'
+                valueFile: 'helm/values.yaml'
+                releaseName: azurepipeline-python
+                arguments: '--namespace uat --debug --set image_tag=$(GIT_COMMIT_HASH)'
+  # - job: uat_environment_helm_chart
+    # displayName: "UAT Environment "
     steps:
     # - task: HelmDeploy@0
     #   displayName: "Delete Helm Chart"
@@ -131,18 +148,6 @@ stages:
     #     command: 'delete'
     #     arguments: 'trial-azure-pipeline'
     #     # releaseName: trial-azure-pipeline
-
-    - task: HelmDeploy@0
-      displayName: "UAT Env Install Helm Chart"
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceConnection: 'azure-pipeline-connection-uat'
-        command: 'upgrade'
-        chartType: 'FilePath'
-        chartPath: 'helm'
-        valueFile: 'helm/values.yaml'
-        releaseName: azurepipeline-python
-        arguments: '--namespace uat --debug --set image_tag=$(GIT_COMMIT_HASH)'
 
         # arguments: '--install -f values.yaml azurepipeline-trial .'
         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
