@@ -99,13 +99,13 @@ stages:
       displayName: "Test Env Install Helm Chart"
       inputs:
         connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceConnection: 'azure-pipeline-connection'
+        kubernetesServiceConnection: 'azure-pipeline-connection-test'
         command: 'upgrade'
         chartType: 'FilePath'
         chartPath: 'helm'
         valueFile: 'helm/values.yaml'
         releaseName: azurepipeline-python
-        arguments: '--namespace uat --debug --set image_tag=$(GIT_COMMIT_HASH)'
+        arguments: '--namespace test --debug --set image_tag=$(GIT_COMMIT_HASH)'
 
         # arguments: '--install -f values.yaml azurepipeline-trial .'
         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
