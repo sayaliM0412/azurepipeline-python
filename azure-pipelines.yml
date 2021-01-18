@@ -99,7 +99,7 @@ stages:
       displayName: "Test Env Install Helm Chart"
       inputs:
         connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceConnection: 'azure-pipeline-connection-test'
+        kubernetesServiceConnection: 'azure-pipeline-connection'
         command: 'upgrade'
         chartType: 'FilePath'
         chartPath: 'helm'
