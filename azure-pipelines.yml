@@ -140,7 +140,7 @@ stages:
         chartType: 'FilePath'
         chartPath: 'helm'
         valueFile: 'helm/values.yaml'
-        releaseName: trial-azure-pipeline-new
+        releaseName: azurepipeline-python
         arguments: '--namespace uat --debug --set image_tag=$(GIT_COMMIT_HASH)'
 
         # arguments: '--install -f values.yaml azurepipeline-trial .'
