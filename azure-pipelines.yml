@@ -42,21 +42,21 @@ stages:
         scriptSource: 'filePath'
         scriptPath: 'test_file.py'
 
-# - stage: helm_chart_setup
-#   displayName: Setup for Helm Chart Deployment
-#   dependsOn:
-#   - test
-#   jobs:
-#     - job: docker_image_build
-#       displayName: docker image build
-#       steps:
-#       - task: Docker@2
-#         inputs:
-#           containerRegistry: 'testconnection'
-#           repository: 'azurepipeline-python'
-#           command: 'buildAndPush'
-#           Dockerfile: '**/Dockerfile'
-#           tags: 'latest'
+- stage: helm_chart_setup
+  displayName: Setup for Helm Chart Deployment
+  dependsOn:
+  - test
+  jobs:
+    - job: docker_image_build
+      displayName: docker image build
+      steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'testconnection'
+          repository: 'azurepipeline-python'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: $(tag)
 
 # - stage: deploy_helm_chart
 #   displayName: Deploy Helm Chart for Service
@@ -97,13 +97,13 @@ stages:
 #       displayName: "Test Env Install Helm Chart"
 #       inputs:
 #         connectionType: 'Kubernetes Service Connection'
-#         kubernetesServiceConnection: 'azure-pipeline-connection'
+#         kubernetesServiceConnection: 'azure-pipeline-connection-test'
 #         command: 'upgrade'
 #         chartType: 'FilePath'
 #         chartPath: 'helm'
 #         valueFile: 'helm/values.yaml'
-#         releaseName: trial-azure-pipeline
-#         arguments: '--namespace test'
+#         releaseName: trial-azure-pipeline-new
+#         arguments: '--namespace test --set image.tag=$(tag)'
 #         # arguments: '--install -f values.yaml azurepipeline-trial .'
 #         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
 #         # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
@@ -114,7 +114,7 @@ stages:
   displayName: "UAT Env" 
   dependsOn:
   # - test_env
-  # - helm_chart_setup
+  - helm_chart_setup
   jobs:
   - job: uat_environment_helm_chart
     displayName: "UAT Environment "
@@ -139,7 +139,7 @@ stages:
         chartPath: 'helm'
         valueFile: 'helm/values.yaml'
         releaseName: trial-azure-pipeline-new
-        arguments: '--namespace uat --debug'
+        arguments: '--namespace uat --debug --set image.tag=$(tag)'
         # arguments: '--install -f values.yaml azurepipeline-trial .'
         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
         # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
