@@ -24,7 +24,7 @@ stages:
     displayName: Build
     pool:
       vmImage: 'ubuntu-latest'
-
+      environment: uat-env
 
 - stage: test
   displayName: Run Tests
