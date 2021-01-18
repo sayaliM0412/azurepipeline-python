@@ -115,12 +115,15 @@ stages:
 
 - stage: uat_env
   displayName: "UAT Env" 
-  dependsOn:
-  - test_env
+
+  # dependsOn:
+  # - test_env
   # - helm_chart_setup
   jobs:
   - job: uat_environment_helm_chart
     displayName: "UAT Environment "
+    environment: 'ApprovalRequired'
+
     steps:
     # - task: HelmDeploy@0
     #   displayName: "Delete Helm Chart"
