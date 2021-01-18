@@ -13,6 +13,8 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
+  GIT_COMMIT_HASH: $(Build.SourceVersion)
+
 
 stages:
 - stage: build
@@ -56,7 +58,7 @@ stages:
           repository: 'azurepipeline-python'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
-          tags: $(tag)
+          tags: $(GIT_COMMIT_HASH)
 
 # - stage: deploy_helm_chart
 #   displayName: Deploy Helm Chart for Service
@@ -139,7 +141,7 @@ stages:
         chartPath: 'helm'
         valueFile: 'helm/values.yaml'
         releaseName: trial-azure-pipeline-new
-        arguments: '--namespace uat --debug --set image_tag=$(tag)'
+        arguments: '--namespace uat --debug --set image_tag=$(GIT_COMMIT_HASH)'
         # arguments: '--install -f values.yaml azurepipeline-trial .'
         # arguments: 'azure-pipeline-trial helm/ -f values.yaml --namespace default ./'
         # arguments: '--install azurepipeline-trial --values values.yaml helm/values.yaml'
