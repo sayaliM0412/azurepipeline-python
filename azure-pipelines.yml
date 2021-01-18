@@ -114,14 +114,20 @@ stages:
 
 - stage: uat_env
   displayName: "UAT Env" 
-  environment: 'uat-env'
 
   # dependsOn:
   # - test_env
   # - helm_chart_setup
   jobs:
   - job: uat_environment_helm_chart
+  - deployment: DeployJobUAT
     displayName: "UAT Environment "
+    environment: 'uat-env'
+    # strategy: 
+    #  runOnce:
+    #    deploy:
+    #      steps:
+    #      - script: 
     steps:
     # - task: HelmDeploy@0
     #   displayName: "Delete Helm Chart"
@@ -132,9 +138,10 @@ stages:
     #     command: 'delete'
     #     arguments: 'trial-azure-pipeline'
     #     # releaseName: trial-azure-pipeline
-
+  
     - task: HelmDeploy@0
       displayName: "UAT Env Install Helm Chart"
+      
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceConnection: 'azure-pipeline-connection-uat'
