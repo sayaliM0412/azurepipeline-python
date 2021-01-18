@@ -122,7 +122,6 @@ stages:
   jobs:
   - job: uat_environment_helm_chart
     displayName: "UAT Environment "
-    environment: 'ApprovalRequired'
 
     steps:
     # - task: HelmDeploy@0
