@@ -56,7 +56,7 @@ stages:
           repository: 'azurepipeline-python'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
-          tags: $(tag)
+          tags: 'trial-azure-pipeline-new:$(tag)'
 
 # - stage: deploy_helm_chart
 #   displayName: Deploy Helm Chart for Service
