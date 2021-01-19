@@ -23,13 +23,13 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
 
-- stage: test
-  displayName: Run Tests
+- stage: Build
+  displayName: Build
   dependsOn:
   - build
   jobs:
-  - job: test_python_solution
-    displayName: test python solution
+  - job: build_solution
+    displayName: build python solution
     steps:
     # - task: CmdLine@2
     #   inputs:
@@ -38,10 +38,9 @@ stages:
     #       ls
     - task: CopyFiles@2
       inputs:
-        SourceFolder: '$(Build.SourcesDirectory)'
         Contents: '**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
-        
+
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
