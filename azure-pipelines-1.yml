@@ -18,15 +18,15 @@ stages:
 - stage: build_microsoft_agent
   displayName: Build Microsoft Agent image
   jobs:  
-  - job: Build
-    displayName: Build
+  - job: build_microsoft_agent
+    displayName: build_microsoft_agent
     pool:
       vmImage: 'ubuntu-latest'
 
 - stage: Build
   displayName: Build
-  dependsOn:
-  - build
+  # dependsOn:
+  # - build
   jobs:
   - job: build_solution
     displayName: build python solution
