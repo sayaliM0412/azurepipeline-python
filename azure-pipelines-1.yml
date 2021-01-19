@@ -36,16 +36,16 @@ stages:
     #     script: |
     #       cd $(System.DefaultWorkingDirectory)
     #       ls
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: '$(Build.SourcesDirectory)'
-        Contents: '**'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    # - task: CopyFiles@2
+    #   inputs:
+    #     SourceFolder: '$(Build.SourcesDirectory)'
+    #     Contents: '**'
+    #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop1'
+    # - task: PublishBuildArtifacts@1
+    #   inputs:
+    #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    #     ArtifactName: 'drop1'
 
     - task: PythonScript@0
       inputs:
