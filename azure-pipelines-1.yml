@@ -38,21 +38,11 @@ stages:
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
           tags: $(GIT_COMMIT_HASH)
-    # - task: CmdLine@2
-    #   inputs:
-    #     script: |
-    #       cd $(System.DefaultWorkingDirectory)
-    #       ls
-    # - task: CopyFiles@2
-    #   inputs:
-    #     SourceFolder: '$(Build.SourcesDirectory)'
-    #     Contents: '**'
-    #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-    # - task: PublishBuildArtifacts@1
-    #   inputs:
-    #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    #     ArtifactName: 'drop1'
+      - task: CmdLine@2
+        inputs:
+          script: |
+            cd $(System.DefaultWorkingDirectory)
+            ls
 
       - task: PythonScript@0
         inputs:
