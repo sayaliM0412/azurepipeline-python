@@ -60,4 +60,3 @@ stages:
         sourceFolder: '$(Build.ArtifactStagingDirectory)/azurepipeline-python/Upload_Artifact'
         globExpressions: '**'
         targetFolder: 'Upload_Artifact'
-        createBucket: true
