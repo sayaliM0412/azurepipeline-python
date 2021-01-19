@@ -1,0 +1,63 @@
+trigger:
+- master
+  
+pr:
+  branches:
+    include:
+      - master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+  GIT_COMMIT_HASH: $(Build.SourceVersion)
+
+
+stages:
+- stage: build
+  displayName: Build Microsoft Agent image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+
+- stage: test
+  displayName: Run Tests
+  dependsOn:
+  - build
+  jobs:
+  - job: test_python_solution
+    displayName: test python solution
+    steps:
+    # - task: CmdLine@2
+    #   inputs:
+    #     script: |
+    #       cd $(System.DefaultWorkingDirectory)
+    #       ls
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)'
+        Contents: '**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop1'
+
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'filePath'
+        scriptPath: 'test_file.py'
+
+    - task: S3Upload@1
+      inputs:
+        awsCredentials: 'AWS-S3-Connection'
+        regionName: 'us-west-2'
+        bucketName: 'sys75'
+        sourceFolder: '$(Build.ArtifactStagingDirectory)/azurepipeline-python/Upload_Artifact'
+        globExpressions: '**'
+        targetFolder: 'Upload_Artifact'
+        createBucket: true
