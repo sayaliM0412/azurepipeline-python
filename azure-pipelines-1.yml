@@ -15,7 +15,7 @@ variables:
 
 
 stages:
-- stage: build
+- stage: build_microsoft_agent
   displayName: Build Microsoft Agent image
   jobs:  
   - job: Build
