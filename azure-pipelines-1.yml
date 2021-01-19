@@ -38,11 +38,11 @@ stages:
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
           tags: $(GIT_COMMIT_HASH)
-      - task: CmdLine@2
-        inputs:
-          script: |
-            cd $(System.DefaultWorkingDirectory)
-            ls
+      # - task: CmdLine@2
+      #   inputs:
+      #     script: |
+      #       cd $(System.DefaultWorkingDirectory)
+      #       ls
 
       - task: PythonScript@0
         inputs:
@@ -54,6 +54,6 @@ stages:
           awsCredentials: 'AWS-S3-Connection'
           regionName: 'us-west-2'
           bucketName: 'sys75'
-          sourceFolder: '$(System.DefaultWorkingDirectory)/azurepipeline-python'
+          sourceFolder: '$(System.DefaultWorkingDirectory)'
           globExpressions: '**'
           targetFolder: 'Upload_Artifact'
