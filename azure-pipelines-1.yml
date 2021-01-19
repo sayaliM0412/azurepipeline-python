@@ -1,0 +1,109 @@
+trigger:
+- master
+  
+pr:
+  branches:
+    include:
+      - master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+  GIT_COMMIT_HASH: $(Build.SourceVersion)
+
+
+stages:
+- stage: build
+  displayName: Build Microsoft Agent image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+
+- stage: test
+  displayName: Run Tests
+  dependsOn:
+  - build
+  jobs:
+  - job: test_python_solution
+    displayName: test python solution
+    steps:
+    # - task: CmdLine@2
+    #   inputs:
+    #     script: |
+    #       cd $(System.DefaultWorkingDirectory)
+    #       ls
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'filePath'
+        scriptPath: 'test_file.py'
+
+     
+- stage: helm_chart_setup
+  displayName: Setup for Helm Chart Deployment
+  dependsOn:
+  - test
+  jobs:
+    - job: docker_image_build
+      displayName: docker image build
+      steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'testconnection'
+          repository: 'azurepipeline-python'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: $(GIT_COMMIT_HASH)
+
+      - task: HelmInstaller@0
+        displayName: "Install Helm"
+        inputs:
+          helmVersion: '3.5.0'
+          installKubectl: true
+          kubectlVersion: '1.16.15'
+        
+###################################For TEST ENVIRONMENT ########################################################
+- stage: test_env
+  displayName: "Test Env" 
+  dependsOn:
+  - helm_chart_setup
+  jobs:
+  - job: test_environment_helm_chart
+    displayName: "TEST Environment "
+    steps:
+    - task: HelmDeploy@0
+      displayName: "Test Env Install Helm Chart"
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: 'azure-pipeline-connection'
+        command: 'upgrade'
+        chartType: 'FilePath'
+        chartPath: 'helm'
+        valueFile: 'helm/values.yaml'
+        releaseName: azurepipeline-python
+        arguments: '--namespace test --debug --set image_tag=$(GIT_COMMIT_HASH)'
+
+###################################For UAT ENVIRONMENT########################################################
+
+- stage: uat_env
+  jobs:
+  - deployment: "UAT"
+    environment: "Uat"
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: HelmDeploy@0
+              displayName: "UAT Env Install Helm Chart"
+              inputs:
+                connectionType: 'Kubernetes Service Connection'
+                kubernetesServiceConnection: 'azure-pipeline-connection-uat'
+                command: 'upgrade'
+                chartType: 'FilePath'
+                chartPath: 'helm'
+                valueFile: 'helm/values.yaml'
+                releaseName: azurepipeline-python
+                arguments: '--namespace uat --debug --set image_tag=$(GIT_COMMIT_HASH)'
