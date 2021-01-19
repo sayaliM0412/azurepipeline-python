@@ -31,6 +31,13 @@ stages:
   - job: build_solution
     displayName: build python solution
     steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'testconnection'
+          repository: 'azurepipeline-python'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: $(GIT_COMMIT_HASH)
     # - task: CmdLine@2
     #   inputs:
     #     script: |
@@ -47,16 +54,16 @@ stages:
     #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     #     ArtifactName: 'drop1'
 
-    - task: PythonScript@0
-      inputs:
-        scriptSource: 'filePath'
-        scriptPath: 'test_file.py'
+      - task: PythonScript@0
+        inputs:
+          scriptSource: 'filePath'
+          scriptPath: 'test_file.py'
 
-    - task: S3Upload@1
-      inputs:
-        awsCredentials: 'AWS-S3-Connection'
-        regionName: 'us-west-2'
-        bucketName: 'sys75'
-        sourceFolder: '$(Build.ArtifactStagingDirectory)/azurepipeline-python/Upload_Artifact'
-        globExpressions: '**'
-        targetFolder: 'Upload_Artifact'
+      - task: S3Upload@1
+        inputs:
+          awsCredentials: 'AWS-S3-Connection'
+          regionName: 'us-west-2'
+          bucketName: 'sys75'
+          sourceFolder: '$(System.DefaultWorkingDirectory)/azurepipeline-python'
+          globExpressions: '**'
+          targetFolder: 'Upload_Artifact'
