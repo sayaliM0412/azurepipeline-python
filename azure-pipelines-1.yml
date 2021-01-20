@@ -60,7 +60,7 @@ stages:
           regionName: 'us-east-2'
           deploymentMode: 'codeonly'
           functionHandler: 'arn:aws:lambda:us-west-2:482780835707:function:sys75'
-          functionName: 'test_helloworld'
+          functionName: 'arn:aws:lambda:us-west-2:482780835707:function:sys75'
           codeLocation: 'localfile'
           
       - task: PythonScript@0
