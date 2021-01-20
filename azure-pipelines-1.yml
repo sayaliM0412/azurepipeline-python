@@ -48,7 +48,7 @@ stages:
           awsCredentials: 'AWS-Connection'
           regionName: 'us-west-2'
           imageSource: 'imagename'
-          sourceImageName: 'azure-pipeline-sys75'
+          sourceImageName: 'docker.magicmemories.com/azurepipeline-python'
           sourceImageTag: '$(Build.SourceVersion)'
           repositoryName: 'azurepipeline-python'
           pushTag: '$(Build.SourceVersion)'
