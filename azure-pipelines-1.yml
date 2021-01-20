@@ -43,17 +43,27 @@ stages:
       #     script: |
       #       cd $(System.DefaultWorkingDirectory)
       #       ls
-
+      - task: ECRPushImage@1
+        inputs:
+          awsCredentials: 'AWS-Connection'
+          regionName: 'us-west-2'
+          imageSource: 'imagename'
+          sourceImageName: 'azure-pipeline-sys75'
+          sourceImageTag: '$(Build.SourceVersion)'
+          repositoryName: 'azurepipeline-python'
+          pushTag: '$(Build.SourceVersion)'
+          autoCreateRepository: true
+          
       - task: PythonScript@0
         inputs:
           scriptSource: 'filePath'
           scriptPath: 'test_file.py'
 
-      - task: S3Upload@1
-        inputs:
-          awsCredentials: 'AWS-S3-Connection'
-          regionName: 'us-west-2'
-          bucketName: 'sys75'
-          sourceFolder: '$(System.DefaultWorkingDirectory)'
-          globExpressions: '**'
-          targetFolder: 'Upload_Artifact'
+      # - task: S3Upload@1
+      #   inputs:
+      #     awsCredentials: 'AWS-S3-Connection'
+      #     regionName: 'us-west-2'
+      #     bucketName: 'sys75'
+      #     sourceFolder: '$(System.DefaultWorkingDirectory)'
+      #     globExpressions: '**'
+      #     targetFolder: 'Upload_Artifact'
