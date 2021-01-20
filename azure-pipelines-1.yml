@@ -56,16 +56,16 @@ stages:
           pushTag: 'latest'
           autoCreateRepository: true
       
-      - task: LambdaDeployFunction@1
-        inputs:
-          awsCredentials: 'AWS-Connection'
-          regionName: 'us-west-2'
-          deploymentMode: 'codeandconfiguration'
-          functionName: 'sys75'
-          # functionHandler: 'arn:aws:lambda:us-west-2:482780835707:function:sys75'
-          runtime: 'python3.8'
-          codeLocation: 'localfile'
-          roleARN: 'sys75-role-ysdqpx3g'
+      # - task: LambdaDeployFunction@1
+      #   inputs:
+      #     awsCredentials: 'AWS-Connection'
+      #     regionName: 'us-west-2'
+      #     deploymentMode: 'codeandconfiguration'
+      #     functionName: 'sys75'
+      #     # functionHandler: 'arn:aws:lambda:us-west-2:482780835707:function:sys75'
+      #     runtime: 'python3.8'
+      #     codeLocation: 'localfile'
+      #     roleARN: 'sys75-role-ysdqpx3g'
           
       - task: PythonScript@0
         inputs:
