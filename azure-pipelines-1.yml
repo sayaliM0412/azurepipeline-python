@@ -59,7 +59,7 @@ stages:
           awsCredentials: 'AWS-Connection'
           regionName: 'us-east-2'
           deploymentMode: 'codeonly'
-          functionName: 'sys75'
+          functionName: 'arn:aws:lambda:us-west-2:482780835707:function:sys75'
           codeLocation: 'localfile'
           
       - task: PythonScript@0
