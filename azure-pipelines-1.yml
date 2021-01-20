@@ -59,7 +59,7 @@ stages:
           awsCredentials: 'AWS-Connection'
           regionName: 'us-east-2'
           deploymentMode: 'codeonly'
-          functionName: 'lambda_handler'
+          functionName: 'sys75'
           codeLocation: 'localfile'
           
       - task: PythonScript@0
