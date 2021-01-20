@@ -53,6 +53,15 @@ stages:
           repositoryName: 'azurepipeline-python'
           pushTag: '$(Build.SourceVersion)'
           autoCreateRepository: true
+      
+      - task: LambdaDeployFunction@1
+        inputs:
+          awsCredentials: 'AWS-Connection'
+          regionName: 'us-east-2'
+          deploymentMode: 'codeonly'
+          functionHandler: 'arn:aws:lambda:us-west-2:482780835707:function:sys75'
+          functionName: 'test_helloworld'
+          codeLocation: 'localfile'
           
       - task: PythonScript@0
         inputs:
