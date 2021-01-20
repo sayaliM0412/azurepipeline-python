@@ -37,7 +37,7 @@ stages:
           repository: 'azurepipeline-python'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
-          tags: $(GIT_COMMIT_HASH)
+          tags: latest
       # - task: CmdLine@2
       #   inputs:
       #     script: |
