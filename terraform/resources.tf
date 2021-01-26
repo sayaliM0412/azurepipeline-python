@@ -26,6 +26,7 @@ provider "aws" {
 
 resource "aws_lambda_function" "test_lambda" {
   image_uri      = "482780835707.dkr.ecr.us-west-2.amazonaws.com/azurepipeline-python:latest"
+  # function_name = "sys75_lambda_function_${var.workspace}"
   function_name = "sys75_lambda_function_${local.env_name}"
   # function_name = "sys75_lambda_function_name_${terraform.workspace}"
   tags = local.common_tags
