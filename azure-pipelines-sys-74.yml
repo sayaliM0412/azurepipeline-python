@@ -52,7 +52,7 @@ stages:
       - task: S3Upload@1
         inputs:
           awsCredentials: 'AWS-S3-Connection'
-          regionName: 'us-west-2'
+          # regionName: 'us-west-2'
           bucketName: 'sys74'
           sourceFolder: '$(System.DefaultWorkingDirectory)'
           globExpressions: '**'
