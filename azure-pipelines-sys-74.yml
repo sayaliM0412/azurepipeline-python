@@ -39,11 +39,11 @@ stages:
           Dockerfile: '**/Dockerfile'
           # tags: latest
           tags: $(GIT_COMMIT_HASH)
-      # - task: CmdLine@2
-      #   inputs:
-      #     script: |
-      #       cd $(System.DefaultWorkingDirectory)
-      #       ls
+      - task: CmdLine@2
+        inputs:
+          script: |
+            cd $(System.DefaultWorkingDirectory)
+            ls
       - task: PythonScript@0
         inputs:
           scriptSource: 'filePath'
