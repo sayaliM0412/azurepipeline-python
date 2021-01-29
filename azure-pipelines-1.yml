@@ -50,11 +50,11 @@ stages:
           regionName: 'us-west-2'
           imageSource: 'imagename'
           sourceImageName: 'docker.magicmemories.com/azurepipeline-python'
-          # sourceImageTag: '$(Build.SourceVersion)'
-          sourceImageTag: 'latest'
+          sourceImageTag: '$(Build.SourceVersion)'
+          # sourceImageTag: 'latest'
           repositoryName: 'azurepipeline-python'
-          # pushTag: '$(Build.SourceVersion)'
-          pushTag: 'latest'
+          pushTag: '$(Build.SourceVersion)'
+          # pushTag: 'latest'
           autoCreateRepository: true
       
       # - task: LambdaDeployFunction@1
