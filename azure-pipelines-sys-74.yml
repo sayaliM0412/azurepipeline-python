@@ -53,7 +53,8 @@ stages:
         inputs:
           awsCredentials: 'AWS-S3-Connection'
           regionName: 'us-west-2'
-          bucketName: 'sys75'
+          bucketName: 'sys74'
           sourceFolder: '$(System.DefaultWorkingDirectory)'
           globExpressions: '**'
           targetFolder: 'Upload_Artifact'
+          createBucket: true
