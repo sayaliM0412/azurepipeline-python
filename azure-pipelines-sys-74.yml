@@ -1,19 +1,59 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+- none
+  
+# pr:
+#   branches:
+#     include:
+#       - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+resources:
+- repo: self
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  tag: '$(Build.BuildId)'
+  GIT_COMMIT_HASH: $(Build.SourceVersion)
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+
+stages:
+- stage: build_microsoft_agent
+  displayName: Build Microsoft Agent image
+  jobs:  
+  - job: build_microsoft_agent
+    displayName: build_microsoft_agent
+    pool:
+      vmImage: 'ubuntu-latest'
+
+- stage: Build
+  displayName: Build
+  # dependsOn:
+  # - build
+  jobs:
+  - job: build_solution
+    displayName: build python solution
+    steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'testconnection'
+          repository: 'azurepipeline-python'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          # tags: latest
+          tags: $(GIT_COMMIT_HASH)
+      # - task: CmdLine@2
+      #   inputs:
+      #     script: |
+      #       cd $(System.DefaultWorkingDirectory)
+      #       ls
+      - task: PythonScript@0
+        inputs:
+          scriptSource: 'filePath'
+          scriptPath: 'test_file.py'
+
+      - task: S3Upload@1
+        inputs:
+          awsCredentials: 'AWS-S3-Connection'
+          regionName: 'us-west-2'
+          bucketName: 'sys75'
+          sourceFolder: '$(System.DefaultWorkingDirectory)'
+          globExpressions: '**'
+          targetFolder: 'Upload_Artifact'
