@@ -59,9 +59,9 @@ jobs:
           # comma separated key-value pairs of build arguments to be passed to the docker build
           build-args: docker build -t ${{ github.sha }} .
           # Name of Dockerfile to use
-          dockerfile: ../Dockerfile
+          dockerfile: Dockerfile
           # Path to Dockerfile, defaults to the working directory
-          path: # optional, default is .
+          path: ../Dockerfile
           # manifest containing IMAGE_TAG placeholder to apply to the cluster
           k8s_manifest: helm/deployment.yml
           # the tag for hte k8s manifest to use when it references the repo.
