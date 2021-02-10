@@ -35,14 +35,6 @@ jobs:
       - name: Test with unittest
         run: |
           python -m unittest
-      
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          file: ./Dockerfile
-          push: true
-          tags: ${{ github.sha }}
 
       # Create Docker image from code and push the resulting image to ECR, then to EKS
       - name: AWS ECR EKS
@@ -67,7 +59,7 @@ jobs:
           # comma separated key-value pairs of build arguments to be passed to the docker build
           build-args: # optional
           # Name of Dockerfile to use
-          dockerfile: # optional, default is Dockerfile
+          dockerfile: ../Dockerfile
           # Path to Dockerfile, defaults to the working directory
           path: # optional, default is .
           # manifest containing IMAGE_TAG placeholder to apply to the cluster
