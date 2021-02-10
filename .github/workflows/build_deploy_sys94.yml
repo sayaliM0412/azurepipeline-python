@@ -63,6 +63,6 @@ jobs:
           # Path to Dockerfile, defaults to the working directory
           path: ../
           # manifest containing IMAGE_TAG placeholder to apply to the cluster
-          k8s_manifest: ../helm/templates/deployment.yaml
+          k8s_manifest: ../helm/templates/
           # the tag for hte k8s manifest to use when it references the repo.
           k8s_image_tag: ${{ github.sha }}
