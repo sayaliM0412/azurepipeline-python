@@ -35,8 +35,8 @@ jobs:
       - name: Test with unittest
         run: |
           python -m unittest
-      - name: Upload unittest test results
-        uses: actions/upload-artifact@v2
+      - name: Publish Unittest test results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
         with:
-          name: unittest-results
-          path: Upload_Artifact/test-results.xml
+          files: Upload_Artifact/test-results.xml    
