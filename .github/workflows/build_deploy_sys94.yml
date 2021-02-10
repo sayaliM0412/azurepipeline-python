@@ -57,7 +57,7 @@ jobs:
           # Comma-separated string of ECR image tags
           tags: ${{ github.sha }}
           # comma separated key-value pairs of build arguments to be passed to the docker build
-          build-args: docker build -t sys-94 .
+          build-args: docker build -t ${{ github.sha }} .
           # Name of Dockerfile to use
           dockerfile: ../Dockerfile
           # Path to Dockerfile, defaults to the working directory
