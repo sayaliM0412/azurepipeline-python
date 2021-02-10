@@ -55,9 +55,9 @@ jobs:
           # the name of the eks cluster to which this image should be pushed
           eks_cluster_name: test-01
           # Comma-separated string of ECR image tags
-          tags: # optional, default is latest
+          tags: ${{ github.sha }}
           # comma separated key-value pairs of build arguments to be passed to the docker build
-          build-args: # optional
+          build-args: docker build -t sys-94 .
           # Name of Dockerfile to use
           dockerfile: ../Dockerfile
           # Path to Dockerfile, defaults to the working directory
