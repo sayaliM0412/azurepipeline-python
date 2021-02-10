@@ -35,4 +35,33 @@ jobs:
       - name: Test with unittest
         run: |
           python -m unittest
-         
+      # Create Docker image from code and push the resulting image to ECR, then to EKS
+      - name: AWS ECR EKS
+        # You may pin to the exact commit or the version.
+        # uses: observian/littleci-littlecd-eks@61b6db8fdabf5a9246c50781facb0b05bd78cbaf
+        uses: observian/littleci-littlecd-eks@0.1.1.6
+        with:
+          # The AWS access key id
+          access_key_id: ${{ secrets.access_key_id}}
+          # The AWS secret access key
+          secret_access_key: ${{ secrets.secret_access_key}}
+          # AWS Account ID
+          account_id: 482780835707
+          # Name of your ECR repository
+          repo: sys-94
+          # The AWS region
+          region: us-west-2
+          # the name of the eks cluster to which this image should be pushed
+          eks_cluster_name: test-01
+          # Comma-separated string of ECR image tags
+          tags: # optional, default is latest
+          # comma separated key-value pairs of build arguments to be passed to the docker build
+          build-args: # optional
+          # Name of Dockerfile to use
+          dockerfile: # optional, default is Dockerfile
+          # Path to Dockerfile, defaults to the working directory
+          path: # optional, default is .
+          # manifest containing IMAGE_TAG placeholder to apply to the cluster
+          k8s_manifest: helm/deployment.yml
+          # the tag for hte k8s manifest to use when it references the repo.
+          k8s_image_tag: ${{ github.sha }}
