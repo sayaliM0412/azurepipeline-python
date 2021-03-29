@@ -1,5 +1,5 @@
 terraform {
-  required_version = "0.13.4"
+  required_version = "0.14.9"
   backend "remote" {
     hostname     = "app.terraform.io"
     organization = "TrialRUn"
@@ -12,5 +12,5 @@ terraform {
 
 provider "tfe" {
   hostname = "app.terraform.io"
-  version  = "0.23.0"
+  version  = "0.24.0"
 }
